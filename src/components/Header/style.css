@@ -1,0 +1,23 @@
+header {
+  background: linear-gradient(rgb(0, 65, 139), rgb(0, 55, 117));
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+  padding: 1.5rem 0.5rem;
+  border-radius: 0 0 1.25rem 1.25rem;
+}
+
+header > a {
+  display: flex;
+  align-items: center;
+}
+
+header > a > img {
+  max-height: 2rem;
+  padding: 0 1rem 0 0.5rem;
+}
+
+header > a > h1 {
+  font-weight: 700;
+}
