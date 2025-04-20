@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Header } from './components/Header/Header';
 import { CARDS_LIBRARY } from './data/cards';
+import { GameBoard } from './components/GameBoard/GameBoard';
 import { CardProps } from './types/Card';
 
 export function App() {
@@ -13,6 +14,7 @@ export function App() {
   return (
     <>
       <Header />
+      <GameBoard cards={cards} />
     </>
   );
 }
