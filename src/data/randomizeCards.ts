@@ -10,16 +10,6 @@ export function getRandomCards(count = 5): CardProps[] {
 }
 
 /**
- * Gera as mãos de dois jogadores com 5 cartas cada.
- */
-export function dealHands(): { player1: CardProps[]; player2: CardProps[] } {
-  const deck = [...CARDS_LIBRARY];
-  const player1 = getRandomCardsFromDeck(deck, 5);
-  const player2 = getRandomCardsFromDeck(deck, 5);
-  return { player1, player2 };
-}
-
-/**
  * Função auxiliar para sortear `count` cartas de um deck dado.
  */
 function getRandomCardsFromDeck(deck: CardProps[], count: number): CardProps[] {

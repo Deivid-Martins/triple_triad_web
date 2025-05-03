@@ -1,3 +1,5 @@
+import { PlayerProps } from '../App';
+
 export type CardProps = {
   name: string;
   index?: number;
@@ -7,4 +9,5 @@ export type CardProps = {
     left: number;
     right: number;
   };
+  owner?: PlayerProps;
 };
