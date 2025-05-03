@@ -35,7 +35,6 @@ export function GameBoard({ cards }: GameBoardProps) {
           return (
             <li key={index}>
               <h2>Name: {card.name}</h2>
-              <h2>Image: {card.image}</h2>
               <h2>up: {card.powers.up === 10 ? 'A' : card.powers.up}</h2>
               <h2>down: {card.powers.down === 10 ? 'A' : card.powers.down}</h2>
               <h2>left: {card.powers.left === 10 ? 'A' : card.powers.left}</h2>
