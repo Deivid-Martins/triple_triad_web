@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { CardProps } from '../../types/Card';
 
+import './style.css';
+
 interface GameBoardProps {
   cards: CardProps[];
 }
@@ -21,7 +23,7 @@ export function GameBoard({ cards }: GameBoardProps) {
   }, [cards]);
 
   return (
-    <ul>
+    <ul id="gameboard">
       {board.map((card, index) => {
         if (card === null) {
           return (
