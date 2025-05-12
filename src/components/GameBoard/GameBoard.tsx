@@ -27,7 +27,7 @@ export function GameBoard({ cards }: GameBoardProps) {
       {board.map((card, index) => {
         if (card === null) {
           return (
-            <li key={index}>
+            <li className="empty" key={index}>
               <h2>Empty Place</h2>
             </li>
           );

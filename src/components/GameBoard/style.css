@@ -22,8 +22,8 @@
   transition: transform 0.2s ease;
 }
 
-#gameboard li:hover {
-  transform: translateY(-4px);
+#gameboard li.empty:hover {
+  transform: translateY(-8px);
 }
 
 #gameboard li h2 {

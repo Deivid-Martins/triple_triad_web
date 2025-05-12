@@ -12,13 +12,13 @@ export interface PlayerProps {
 
 const PlayerOneDefault: PlayerProps = {
   name: 'Deivid',
-  points: 0,
+  points: 3,
   cards: getRandomCards(),
 };
 
 const PlayerTwoDefault: PlayerProps = {
   name: 'Kayke',
-  points: 0,
+  points: 3,
   cards: getRandomCards(),
 };
 
@@ -27,7 +27,10 @@ export function App() {
   const [playerOne, setPlayerOne] = useState<PlayerProps>(PlayerOneDefault);
   const [playerTwo, setPlayerTwo] = useState<PlayerProps>(PlayerTwoDefault);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log(playerOne);
+    console.log(playerTwo);
+  }, [playerOne, playerTwo]);
 
   return (
     <>
