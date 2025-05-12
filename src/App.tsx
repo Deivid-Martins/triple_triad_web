@@ -26,8 +26,43 @@ export function App() {
   const [cards, setCards] = useState<CardProps[]>([]);
   const [playerOne, setPlayerOne] = useState<PlayerProps>(PlayerOneDefault);
   const [playerTwo, setPlayerTwo] = useState<PlayerProps>(PlayerTwoDefault);
+  const [selectedCard, setSelectedCard] = useState<CardProps | null>(null);
+
+  const handleCardSelected = (card: CardProps) => {
+    setSelectedCard(card);
+  };
+
+  const handleCardPlaced = (index: number) => {
+    if (!selectedCard) return;
+
+    const isPlayerOneTurn = cards.length % 2 === 0 ? true : false;
+
+    const placedCard: CardProps = {
+      ...selectedCard,
+      index,
+      owner: playerOne,
+    };
+
+    setCards((prev) => [...prev, placedCard]);
+
+    if (isPlayerOneTurn) {
+      setPlayerOne((prev) => ({
+        ...prev,
+        cards: prev.cards.filter((c) => c.name !== selectedCard.name),
+      }));
+    } else {
+      setPlayerTwo((prev) => ({
+        ...prev,
+        cards: prev.cards.filter((c) => c.name !== selectedCard.name),
+      }));
+    }
+
+    setSelectedCard(null);
+  };
 
   useEffect(() => {
+    playerOne.cards.map((card) => (card.owner = playerOne));
+    playerTwo.cards.map((card) => (card.owner = playerTwo));
     console.log(playerOne);
     console.log(playerTwo);
   }, [playerOne, playerTwo]);
@@ -35,7 +70,14 @@ export function App() {
   return (
     <>
       <Header />
-      <GameBoard cards={cards} />
+      <GameBoard
+        cards={cards}
+        onCardSelected={handleCardSelected}
+        onCardPlaced={handleCardPlaced}
+        playerOne={playerOne}
+        playerTwo={playerOne}
+        selectedCard={selectedCard}
+      />
     </>
   );
 }

@@ -5,19 +5,27 @@ import './style.css';
 
 interface GameBoardProps {
   cards: CardProps[];
+  onCardSelected: (card: CardProps) => void;
+  onCardPlaced: (index: number) => void;
+  playerOne: PlayerProps;
+  playerTwo: PlayerProps;
+  selectedCard: CardProps | null;
 }
 
-export function GameBoard({ cards }: GameBoardProps) {
+export function GameBoard({
+  cards,
+  onCardSelected,
+  onCardPlaced,
+  playerOne,
+  playerTwo,
+  selectedCard,
+}: GameBoardProps) {
   const [board, setBoard] = useState<(CardProps | null)[]>([]);
 
   useEffect(() => {
-    const cardsOnBoard = cards.filter((card) => card.index !== undefined);
-    setBoard(Array(9).fill(null));
-
     const newBoard: (CardProps | null)[] = Array(9).fill(null);
-
-    for (const card of cardsOnBoard) {
-      newBoard[card.index as number] = card;
+    for (const card of cards) {
+      if (card.index !== undefined) newBoard[card.index] = card;
     }
     setBoard(newBoard);
   }, [cards]);
