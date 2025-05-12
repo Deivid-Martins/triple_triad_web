@@ -3,6 +3,7 @@ import { Header } from './components/Header/Header';
 import { GameBoard } from './components/GameBoard/GameBoard';
 import { CardProps } from './types/Card';
 import { getRandomCards } from './data/randomizeCards';
+import { Modal } from './components/Modal/Modal';
 
 export interface PlayerProps {
   name: string;
@@ -26,7 +27,14 @@ export function App() {
   const [cards, setCards] = useState<CardProps[]>([]);
   const [playerOne, setPlayerOne] = useState<PlayerProps>(PlayerOneDefault);
   const [playerTwo, setPlayerTwo] = useState<PlayerProps>(PlayerTwoDefault);
+  const [playerOnTurn, setPlayerOnTurn] = useState<PlayerProps>(playerOne);
   const [selectedCard, setSelectedCard] = useState<CardProps | null>(null);
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+
+  function handleOpenModal() {
+    console.log('Abrir modal!');
+    setModalIsOpen((prev) => !prev);
+  }
 
   const handleCardSelected = (card: CardProps) => {
     setSelectedCard(card);
@@ -34,8 +42,6 @@ export function App() {
 
   const handleCardPlaced = (index: number) => {
     if (!selectedCard) return;
-
-    const isPlayerOneTurn = cards.length % 2 === 0 ? true : false;
 
     const placedCard: CardProps = {
       ...selectedCard,
@@ -45,16 +51,18 @@ export function App() {
 
     setCards((prev) => [...prev, placedCard]);
 
-    if (isPlayerOneTurn) {
+    if (playerOnTurn === playerOne) {
       setPlayerOne((prev) => ({
         ...prev,
         cards: prev.cards.filter((c) => c.name !== selectedCard.name),
       }));
+      setPlayerOnTurn(playerTwo);
     } else {
       setPlayerTwo((prev) => ({
         ...prev,
         cards: prev.cards.filter((c) => c.name !== selectedCard.name),
       }));
+      setPlayerOnTurn(playerOne);
     }
 
     setSelectedCard(null);
@@ -77,7 +85,9 @@ export function App() {
         playerOne={playerOne}
         playerTwo={playerOne}
         selectedCard={selectedCard}
+        handleOpenModal={handleOpenModal}
       />
+      <Modal isOpen={modalIsOpen} player={playerOnTurn} />
     </>
   );
 }

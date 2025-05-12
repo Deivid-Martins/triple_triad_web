@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { CardProps } from '../../types/Card';
 
 import './style.css';
+import { PlayerProps } from '../../App';
 
 interface GameBoardProps {
   cards: CardProps[];
@@ -10,6 +11,7 @@ interface GameBoardProps {
   playerOne: PlayerProps;
   playerTwo: PlayerProps;
   selectedCard: CardProps | null;
+  handleOpenModal: () => void;
 }
 
 export function GameBoard({
@@ -19,6 +21,7 @@ export function GameBoard({
   playerOne,
   playerTwo,
   selectedCard,
+  handleOpenModal,
 }: GameBoardProps) {
   const [board, setBoard] = useState<(CardProps | null)[]>([]);
 
@@ -30,12 +33,16 @@ export function GameBoard({
     setBoard(newBoard);
   }, [cards]);
 
+  function handleClickOnSpaceEmpty() {
+    handleOpenModal();
+  }
+
   return (
     <ul id="gameboard">
       {board.map((card, index) => {
         if (card === null) {
           return (
-            <li className="empty" key={index}>
+            <li className="empty" key={index} onClick={handleClickOnSpaceEmpty}>
               <h2>Empty Place</h2>
             </li>
           );
