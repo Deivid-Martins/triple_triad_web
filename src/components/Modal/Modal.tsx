@@ -2,11 +2,12 @@ import { PlayerProps } from '../../App';
 
 interface ModaLProps {
   isOpen: boolean;
-  player: PlayerProps;
+  playerOnTurn: PlayerProps;
+  playerOponent: PlayerProps;
 }
 
-export function Modal({ isOpen, player }: ModaLProps) {
+export function Modal({ isOpen, playerOnTurn, playerOponent }: ModaLProps) {
   if (isOpen) {
-    return <div>Oi</div>;
+    return <div>oi</div>;
   }
 }

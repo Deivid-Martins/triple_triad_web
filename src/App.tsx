@@ -28,6 +28,7 @@ export function App() {
   const [playerOne, setPlayerOne] = useState<PlayerProps>(PlayerOneDefault);
   const [playerTwo, setPlayerTwo] = useState<PlayerProps>(PlayerTwoDefault);
   const [playerOnTurn, setPlayerOnTurn] = useState<PlayerProps>(playerOne);
+  const [playerOponent, setPlayerOponent] = useState<PlayerProps>(playerTwo);
   const [selectedCard, setSelectedCard] = useState<CardProps | null>(null);
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
@@ -57,12 +58,14 @@ export function App() {
         cards: prev.cards.filter((c) => c.name !== selectedCard.name),
       }));
       setPlayerOnTurn(playerTwo);
+      setPlayerOponent(playerOne);
     } else {
       setPlayerTwo((prev) => ({
         ...prev,
         cards: prev.cards.filter((c) => c.name !== selectedCard.name),
       }));
       setPlayerOnTurn(playerOne);
+      setPlayerOponent(playerTwo);
     }
 
     setSelectedCard(null);
@@ -87,7 +90,11 @@ export function App() {
         selectedCard={selectedCard}
         handleOpenModal={handleOpenModal}
       />
-      <Modal isOpen={modalIsOpen} player={playerOnTurn} />
+      <Modal
+        isOpen={modalIsOpen}
+        playerOnTurn={playerOnTurn}
+        playerOponent={playerOponent}
+      />
     </>
   );
 }
