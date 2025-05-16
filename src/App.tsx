@@ -1,15 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Header } from './components/Header/Header';
 import { GameBoard } from './components/GameBoard/GameBoard';
-import { CardProps } from './types/Card';
-import { getRandomCards } from './data/randomizeCards';
 import { Modal } from './components/Modal/Modal';
-
-export interface PlayerProps {
-  name: string;
-  points: number;
-  cards: CardProps[];
-}
+import { CardProps } from './types/Card';
+import { PlayerProps } from './types/Player';
+import { getRandomCards } from './data/randomizeCards';
 
 const PlayerOneDefault: PlayerProps = {
   name: 'Deivid',
@@ -24,76 +19,62 @@ const PlayerTwoDefault: PlayerProps = {
 };
 
 export function App() {
-  const [cards, setCards] = useState<CardProps[]>([]);
+  const [cardsOnBoard, setCardsOnBoard] = useState<CardProps[]>([]);
   const [playerOne, setPlayerOne] = useState<PlayerProps>(PlayerOneDefault);
   const [playerTwo, setPlayerTwo] = useState<PlayerProps>(PlayerTwoDefault);
   const [playerOnTurn, setPlayerOnTurn] = useState<PlayerProps>(playerOne);
-  const [playerOponent, setPlayerOponent] = useState<PlayerProps>(playerTwo);
-  const [selectedCard, setSelectedCard] = useState<CardProps | null>(null);
-  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+  const [playerOpponent, setPlayerOpponent] = useState<PlayerProps>(playerTwo);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
-  function handleOpenModal() {
-    console.log('Abrir modal!');
-    setModalIsOpen((prev) => !prev);
-  }
-
-  const handleCardSelected = (card: CardProps) => {
-    setSelectedCard(card);
+  const openModal = (index: number) => {
+    setSelectedIndex(index);
+    setModalOpen(true);
   };
 
-  const handleCardPlaced = (index: number) => {
-    if (!selectedCard) return;
-
-    const placedCard: CardProps = {
-      ...selectedCard,
-      index,
-      owner: playerOne,
-    };
-
-    setCards((prev) => [...prev, placedCard]);
+  const placeCard = (card: CardProps) => {
+    if (selectedIndex === null) return;
+    const placed: CardProps = { ...card, index: selectedIndex };
+    setCardsOnBoard((prev) => [...prev, placed]);
 
     if (playerOnTurn === playerOne) {
-      setPlayerOne((prev) => ({
+      setPlayerOne((prev: PlayerProps) => ({
         ...prev,
-        cards: prev.cards.filter((c) => c.name !== selectedCard.name),
+        cards: prev.cards.filter((c: CardProps) => c.name !== card.name),
       }));
       setPlayerOnTurn(playerTwo);
-      setPlayerOponent(playerOne);
+      setPlayerOpponent(playerOne);
     } else {
-      setPlayerTwo((prev) => ({
+      setPlayerTwo((prev: PlayerProps) => ({
         ...prev,
-        cards: prev.cards.filter((c) => c.name !== selectedCard.name),
+        cards: prev.cards.filter((c: CardProps) => c.name !== card.name),
       }));
       setPlayerOnTurn(playerOne);
-      setPlayerOponent(playerTwo);
+      setPlayerOpponent(playerTwo);
     }
-
-    setSelectedCard(null);
+    setModalOpen(false);
+    setSelectedIndex(null);
   };
 
   useEffect(() => {
-    playerOne.cards.map((card) => (card.owner = playerOne));
-    playerTwo.cards.map((card) => (card.owner = playerTwo));
-    console.log(playerOne);
-    console.log(playerTwo);
+    playerOne.cards.forEach((c: CardProps) => (c.owner = playerOne));
+    playerTwo.cards.forEach((c: CardProps) => (c.owner = playerTwo));
   }, [playerOne, playerTwo]);
 
   return (
     <>
       <Header />
       <GameBoard
-        cards={cards}
-        onCardSelected={handleCardSelected}
-        onCardPlaced={handleCardPlaced}
+        cards={cardsOnBoard}
         playerOne={playerOne}
-        playerTwo={playerOne}
-        selectedCard={selectedCard}
-        handleOpenModal={handleOpenModal}
+        playerTwo={playerTwo}
+        handleOpenModal={openModal}
       />
       <Modal
-        isOpen={modalIsOpen}
+        isOpen={modalOpen}
         playerOnTurn={playerOnTurn}
-        playerOponent={playerOponent}
+        playerOpponent={playerOpponent}
+        onCardClick={placeCard}
       />
     </>
   );

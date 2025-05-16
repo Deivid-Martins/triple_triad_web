@@ -1,65 +1,46 @@
 import { useEffect, useState } from 'react';
 import { CardProps } from '../../types/Card';
-
 import './style.css';
-import { PlayerProps } from '../../App';
 
 interface GameBoardProps {
   cards: CardProps[];
-  onCardSelected: (card: CardProps) => void;
-  onCardPlaced: (index: number) => void;
-  playerOne: PlayerProps;
-  playerTwo: PlayerProps;
-  selectedCard: CardProps | null;
-  handleOpenModal: () => void;
+  handleOpenModal: (index: number) => void;
 }
 
-export function GameBoard({
-  cards,
-  onCardSelected,
-  onCardPlaced,
-  playerOne,
-  playerTwo,
-  selectedCard,
-  handleOpenModal,
-}: GameBoardProps) {
+export function GameBoard({ cards, handleOpenModal }: GameBoardProps) {
   const [board, setBoard] = useState<(CardProps | null)[]>([]);
 
   useEffect(() => {
     const newBoard: (CardProps | null)[] = Array(9).fill(null);
-    for (const card of cards) {
-      if (card.index !== undefined) newBoard[card.index] = card;
-    }
+    cards.forEach((c) => {
+      if (c.index !== undefined) newBoard[c.index] = c;
+    });
     setBoard(newBoard);
   }, [cards]);
 
-  function handleClickOnSpaceEmpty() {
-    handleOpenModal();
-  }
-
   return (
     <ul id="gameboard">
-      {board.map((card, index) => {
-        if (card === null) {
-          return (
-            <li className="empty" key={index} onClick={handleClickOnSpaceEmpty}>
-              <h2>Empty Place</h2>
-            </li>
-          );
-        } else {
-          return (
-            <li key={index}>
-              <h2>Name: {card.name}</h2>
-              <h2>up: {card.powers.up === 10 ? 'A' : card.powers.up}</h2>
-              <h2>down: {card.powers.down === 10 ? 'A' : card.powers.down}</h2>
-              <h2>left: {card.powers.left === 10 ? 'A' : card.powers.left}</h2>
-              <h2>
-                right: {card.powers.right === 10 ? 'A' : card.powers.right}
-              </h2>
-            </li>
-          );
-        }
-      })}
+      {board.map((slot, idx) => (
+        <li
+          key={idx}
+          className={slot ? 'occupied' : 'empty'}
+          onClick={() => !slot && handleOpenModal(idx)}
+        >
+          {slot ? (
+            <>
+              <h2>{slot.name}</h2>
+              <div className="powers">
+                <span>Up: {slot.powers.up}</span>
+                <span>Down: {slot.powers.down}</span>
+                <span>Left: {slot.powers.left}</span>
+                <span>Right: {slot.powers.right}</span>
+              </div>
+            </>
+          ) : (
+            <h2>Empty Place</h2>
+          )}
+        </li>
+      ))}
     </ul>
   );
 }
