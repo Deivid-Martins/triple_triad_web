@@ -10,7 +10,7 @@
 
 #gameboard li {
   background: #070025;
-  border: 1px solid #67539c;
+  border: 1px solid transparent;
   border-radius: 8px;
   padding: 0.75rem;
   display: flex;
@@ -20,6 +20,10 @@
   min-height: 120px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease;
+}
+
+#gameboard li.empty {
+  border-color: #67539c;
 }
 
 #gameboard li.empty:hover {
@@ -37,4 +41,16 @@
   font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
+}
+
+/* Slot do playerOne: borda verde */
+#gameboard li.green-slot {
+  border-color: rgb(11, 138, 0);
+  border-width: 4px;
+}
+
+/* Slot do playerTwo: borda vermelha */
+#gameboard li.red-slot {
+  border-color: rgb(139, 0, 0);
+  border-width: 4px;
 }

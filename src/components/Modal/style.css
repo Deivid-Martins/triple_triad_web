@@ -1,0 +1,87 @@
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #1a1a2e;
+  padding: 2rem;
+  border: 0.125rem solid #7158e2;
+  border-radius: 0.75rem;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-content .hand {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+  justify-content: space-between;
+}
+
+.card-slot {
+  position: relative;
+  width: 8rem;
+  height: 8rem;
+  background: #2e2b44;
+  border: 0.125rem solid #7158e2;
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: ease-in 0.15s;
+}
+
+.usable:hover {
+  transform: translateY(-10px);
+}
+
+.card-slot.small {
+  width: 8rem;
+  height: 8rem;
+}
+
+.card-slot .card-name {
+  margin: 0;
+  font-size: 1rem;
+  color: #fff;
+}
+
+.card-slot .power-up {
+  position: absolute;
+  top: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.875rem;
+}
+.card-slot .power-down {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.875rem;
+}
+.card-slot .power-left {
+  position: absolute;
+  left: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.875rem;
+}
+.card-slot .power-right {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.875rem;
+}

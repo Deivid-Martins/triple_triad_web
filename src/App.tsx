@@ -3,7 +3,7 @@ import { Header } from './components/Header/Header';
 import { GameBoard } from './components/GameBoard/GameBoard';
 import { Modal } from './components/Modal/Modal';
 import { CardProps } from './types/Card';
-import { PlayerProps } from './types/Player';
+import { PlayerProps } from './types/player';
 import { getRandomCards } from './data/randomizeCards';
 
 const PlayerOneDefault: PlayerProps = {
@@ -67,7 +67,6 @@ export function App() {
       <GameBoard
         cards={cardsOnBoard}
         playerOne={playerOne}
-        playerTwo={playerTwo}
         handleOpenModal={openModal}
       />
       <Modal
