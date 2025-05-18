@@ -38,17 +38,19 @@ export function App() {
     setModalOpen(true);
   };
 
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   const placeCard = (card: CardProps) => {
     if (selectedIndex === null) return;
 
-    // 1) lógica de captura retorna novo board e número de capturas
     const { board: newBoard, captures } = logicPlaceCard(board, selectedIndex, {
       ...card,
       index: selectedIndex,
     });
     setBoard(newBoard);
 
-    // 2) atualiza pontuação: capturador ganha +captures, capturado perde -captures
     if (playerOnTurn.name === playerOne.name) {
       setPlayerOne((p) => ({ ...p, points: p.points + captures }));
       setPlayerTwo((p) => ({ ...p, points: p.points - captures }));
@@ -57,7 +59,6 @@ export function App() {
       setPlayerOne((p) => ({ ...p, points: p.points - captures }));
     }
 
-    // 3) remove carta da mão
     if (playerOnTurn.name === playerOne.name) {
       setPlayerOne((p) => ({
         ...p,
@@ -70,7 +71,6 @@ export function App() {
       }));
     }
 
-    // 4) alterna jogador
     const nextPlayer =
       playerOnTurn.name === playerOne.name ? playerTwo : playerOne;
     const nextOpponent =
@@ -78,7 +78,6 @@ export function App() {
     setPlayerOnTurn(nextPlayer);
     setPlayerOpponent(nextOpponent);
 
-    // 5) fim de jogo e pontuação do vencedor da rodada
     if (isGameOver(newBoard)) {
       const winner = getWinner(newBoard, playerOne, playerTwo);
       if (winner) {
@@ -117,6 +116,7 @@ export function App() {
           playerOnTurn={playerOnTurn}
           playerOpponent={playerOpponent}
           onCardClick={placeCard}
+          handleCloseModal={closeModal}
         />
       </>
     );

@@ -41,7 +41,6 @@ export function placeCard(
   index: number,
   card: CardProps,
 ): { board: (CardProps | null)[]; captures: number } {
-  // clone do board
   const newBoard = board.slice();
   newBoard[index] = { ...card, index };
 
@@ -59,7 +58,6 @@ export function placeCard(
   return { board: newBoard, captures: allFlips.length };
 }
 
-// Deltas para vizinhança: deslocamento no array e direção oposta para comparar
 const deltas: Record<
   keyof CardProps['powers'],
   { idx: number; opp: keyof CardProps['powers'] }

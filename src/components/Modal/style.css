@@ -85,3 +85,24 @@
   transform: translateY(-50%);
   font-size: 0.875rem;
 }
+
+.close-turn {
+  display: flex;
+  margin: auto;
+  padding: 1rem 2rem;
+  border-radius: 2rem;
+
+  font-size: 1rem;
+  font-weight: bold;
+
+  background-color: transparent;
+  border: 1px solid red;
+  color: red;
+  transition: ease-in 0.1s;
+}
+
+.close-turn:hover {
+  background-color: red;
+  color: black;
+  border-color: black;
+}
