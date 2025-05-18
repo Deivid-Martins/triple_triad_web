@@ -1,4 +1,4 @@
-import { PlayerProps } from '../App';
+import { PlayerProps } from './Player';
 
 export type CardProps = {
   name: string;
@@ -9,5 +9,5 @@ export type CardProps = {
     left: number;
     right: number;
   };
-  owner?: PlayerProps;
+  owner: PlayerProps;
 };
