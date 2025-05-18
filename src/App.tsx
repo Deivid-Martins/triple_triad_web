@@ -11,6 +11,7 @@ import {
   isGameOver,
 } from './gameLogic';
 import { PlayersInfo } from './components/PlayersInfo/PlayersInfo';
+import { Congratulations } from './components/Congratulations/Congratulations';
 
 const PlayerOneDefault: PlayerProps = {
   name: 'Deivid',
@@ -122,13 +123,7 @@ export function App() {
     return (
       <>
         <Header />
-        <main>
-          <h2>Congratulations!!!</h2>
-          <p>
-            Name: {gameWinner.name} <br />
-            Points: {gameWinner.points}
-          </p>
-        </main>
+        <Congratulations winner={gameWinner} />
       </>
     );
   }

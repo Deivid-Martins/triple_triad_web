@@ -1,0 +1,53 @@
+.winner-container {
+  position: relative;
+
+  background-color: rgb(0, 0, 32);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  height: 24rem;
+  padding: 2rem;
+
+  border-radius: 3rem;
+
+  margin-top: 5rem;
+  overflow: hidden;
+}
+
+.winner-container::before {
+  content: '';
+  position: absolute;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(180deg, #07e2f1, #eb9b05);
+
+  animation: animate 3s linear infinite;
+}
+
+@keyframes animate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.winner-container::after {
+  content: '';
+  position: absolute;
+  background-color: rgb(0, 0, 32);
+  inset: 5px;
+  border-radius: inherit;
+}
+
+.winner-container * {
+  position: relative;
+  z-index: 1;
+}
+
+.player-informations {
+  height: 100%;
+  text-align: center;
+  align-content: center;
+}
