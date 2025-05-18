@@ -10,6 +10,7 @@ import {
   getWinner,
   isGameOver,
 } from './gameLogic';
+import { PlayersInfo } from './components/PlayersInfo/PlayersInfo';
 
 const PlayerOneDefault: PlayerProps = {
   name: 'Deivid',
@@ -102,10 +103,7 @@ export function App() {
     return (
       <>
         <Header />
-        <p>
-          Player One Points: {playerOne.points} <br />
-          Player Two Points: {playerTwo.points}
-        </p>
+        <PlayersInfo playerOne={playerOne} playerTwo={playerTwo} />
         <GameBoard
           cards={board.filter((c): c is CardProps => c !== null)}
           playerOne={playerOne}
