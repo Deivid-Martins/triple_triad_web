@@ -14,7 +14,7 @@ export function getWinner(
   let count2 = 0;
   for (const slot of board) {
     if (!slot) continue;
-    if (slot.owner.name === playerOne.name) count1++;
+    if (slot.owner!.name === playerOne.name) count1++;
     else count2++;
   }
   if (count1 > count2) return playerOne;
@@ -43,7 +43,7 @@ export function placeCard(
 
   const allFlips = Array.from(new Set([...commonCaptures, ...sameCaptures]));
   for (const flipIdx of allFlips) {
-    if (newBoard[flipIdx]) newBoard[flipIdx]!.owner = { ...card.owner };
+    if (newBoard[flipIdx]) newBoard[flipIdx]!.owner = { ...card.owner! };
   }
 
   return { board: newBoard, captures: allFlips.length };
@@ -75,7 +75,7 @@ function checkCommon(board: (CardProps | null)[], index: number): number[] {
       continue;
     const neighbor = board[ni];
     if (!neighbor) continue;
-    if (neighbor.owner.name === placed.owner.name) continue;
+    if (neighbor.owner!.name === placed.owner!.name) continue;
     const mine = placed.powers[dir];
     const theirs = neighbor.powers[opp];
     if (mine > theirs) flips.push(ni);

@@ -9,5 +9,5 @@ export type CardProps = {
     left: number;
     right: number;
   };
-  owner: PlayerProps;
+  owner?: PlayerProps;
 };
