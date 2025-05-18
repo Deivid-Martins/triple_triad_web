@@ -5,6 +5,11 @@ import { Modal } from './components/Modal/Modal';
 import { CardProps } from './types/Card';
 import { PlayerProps } from './types/Player';
 import { getRandomCards } from './data/randomizeCards';
+import {
+  placeCard as logicPlaceCard,
+  getWinner,
+  isGameOver,
+} from './gameLogic';
 
 const PlayerOneDefault: PlayerProps = {
   name: 'Deivid',
@@ -19,7 +24,7 @@ const PlayerTwoDefault: PlayerProps = {
 };
 
 export function App() {
-  const [cardsOnBoard, setCardsOnBoard] = useState<CardProps[]>([]);
+  const [board, setBoard] = useState<(CardProps | null)[]>(Array(9).fill(null));
   const [playerOne, setPlayerOne] = useState<PlayerProps>(PlayerOneDefault);
   const [playerTwo, setPlayerTwo] = useState<PlayerProps>(PlayerTwoDefault);
   const [playerOnTurn, setPlayerOnTurn] = useState<PlayerProps>(playerOne);
@@ -34,38 +39,67 @@ export function App() {
 
   const placeCard = (card: CardProps) => {
     if (selectedIndex === null) return;
-    const placed: CardProps = { ...card, index: selectedIndex };
-    setCardsOnBoard((prev) => [...prev, placed]);
 
-    if (playerOnTurn === playerOne) {
-      setPlayerOne((prev: PlayerProps) => ({
-        ...prev,
-        cards: prev.cards.filter((c: CardProps) => c.name !== card.name),
-      }));
-      setPlayerOnTurn(playerTwo);
-      setPlayerOpponent(playerOne);
+    const { board: newBoard, captures } = logicPlaceCard(board, selectedIndex, {
+      ...card,
+      index: selectedIndex,
+    });
+    setBoard(newBoard);
+
+    if (playerOnTurn.name === playerOne.name) {
+      setPlayerOne((p) => ({ ...p, points: p.points + captures }));
     } else {
-      setPlayerTwo((prev: PlayerProps) => ({
-        ...prev,
-        cards: prev.cards.filter((c: CardProps) => c.name !== card.name),
-      }));
-      setPlayerOnTurn(playerOne);
-      setPlayerOpponent(playerTwo);
+      setPlayerTwo((p) => ({ ...p, points: p.points + captures }));
     }
+
+    if (playerOnTurn.name === playerOne.name) {
+      setPlayerOne((p) => ({
+        ...p,
+        cards: p.cards.filter((c) => c.name !== card.name),
+      }));
+    } else {
+      setPlayerTwo((p) => ({
+        ...p,
+        cards: p.cards.filter((c) => c.name !== card.name),
+      }));
+    }
+
+    const nextPlayer =
+      playerOnTurn.name === playerOne.name ? playerTwo : playerOne;
+    const nextOpponent =
+      playerOnTurn.name === playerOne.name ? playerOne : playerTwo;
+    setPlayerOnTurn(nextPlayer);
+    setPlayerOpponent(nextOpponent);
+
+    if (isGameOver(newBoard)) {
+      const winner = getWinner(newBoard, playerOne, playerTwo);
+      if (winner) {
+        if (winner.name === playerOne.name) {
+          setPlayerOne((p) => ({ ...p, points: p.points + 1 }));
+        } else {
+          setPlayerTwo((p) => ({ ...p, points: p.points + 1 }));
+        }
+      }
+    }
+
     setModalOpen(false);
     setSelectedIndex(null);
   };
 
   useEffect(() => {
-    playerOne.cards.forEach((c: CardProps) => (c.owner = playerOne));
-    playerTwo.cards.forEach((c: CardProps) => (c.owner = playerTwo));
+    playerOne.cards.forEach((c) => (c.owner = playerOne));
+    playerTwo.cards.forEach((c) => (c.owner = playerTwo));
   }, [playerOne, playerTwo]);
 
   return (
     <>
       <Header />
+      <p>
+        Player One Points: {playerOne.points}
+        Player Two Points: {playerTwo.points}
+      </p>
       <GameBoard
-        cards={cardsOnBoard}
+        cards={board.filter((c): c is CardProps => c !== null)}
         playerOne={playerOne}
         handleOpenModal={openModal}
       />
