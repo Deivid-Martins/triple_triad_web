@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { CardProps } from '../../types/Card';
-
-import './style.css';
 import { PlayerProps } from '../../types/Player';
+import './style.css';
+
 interface GameBoardProps {
   cards: CardProps[];
   handleOpenModal: (index: number) => void;
@@ -41,17 +41,19 @@ export function GameBoard({
           >
             {slot ? (
               <>
-                <h2>Name: {slot.name}</h2>
-                <h2>up: {slot.powers.up === 10 ? 'A' : slot.powers.up}</h2>
-                <h2>
-                  down: {slot.powers.down === 10 ? 'A' : slot.powers.down}
-                </h2>
-                <h2>
-                  left: {slot.powers.left === 10 ? 'A' : slot.powers.left}
-                </h2>
-                <h2>
-                  right: {slot.powers.right === 10 ? 'A' : slot.powers.right}
-                </h2>
+                <span className="power-up">
+                  {slot.powers.up === 10 ? 'A' : slot.powers.up}
+                </span>
+                <span className="power-left">
+                  {slot.powers.left === 10 ? 'A' : slot.powers.left}
+                </span>
+                <h2 className="card-name">{slot.name}</h2>
+                <span className="power-right">
+                  {slot.powers.right === 10 ? 'A' : slot.powers.right}
+                </span>
+                <span className="power-down">
+                  {slot.powers.down === 10 ? 'A' : slot.powers.down}
+                </span>
               </>
             ) : (
               <h2>Empty Place</h2>
