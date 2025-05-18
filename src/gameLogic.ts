@@ -8,24 +8,12 @@ export function isGameOver(board: (CardProps | null)[]): boolean {
   return board.filter((slot) => slot != null).length >= 9;
 }
 
-/**
- * Conta cartas de cada jogador e declara vencedor (ou null se empate)
- */
 export function getWinner(
-  board: (CardProps | null)[],
   playerOne: PlayerProps,
   playerTwo: PlayerProps,
 ): PlayerProps | null {
-  let count1 = 0;
-  let count2 = 0;
-  for (const slot of board) {
-    if (!slot) continue;
-    if (slot.owner!.name === playerOne.name) count1++;
-    else count2++;
-  }
-  if (count1 > count2) return playerOne;
-  if (count2 > count1) return playerTwo;
-  return null;
+  if (playerOne.points > playerTwo.points) return playerOne;
+  else return playerTwo;
 }
 
 /**

@@ -81,7 +81,7 @@ export function App() {
     setPlayerOpponent(nextOpponent);
 
     if (isGameOver(newBoard)) {
-      const winner = getWinner(newBoard, playerOne, playerTwo);
+      const winner = getWinner(playerOne, playerTwo);
       if (winner) {
         if (winner.name === playerOne.name) {
           setGameWinner(playerOne);
