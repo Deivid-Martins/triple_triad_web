@@ -31,6 +31,7 @@ export function App() {
   const [playerOpponent, setPlayerOpponent] = useState<PlayerProps>(playerTwo);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [gameWinner, setGameWinner] = useState<PlayerProps | null>(null);
 
   const openModal = (index: number) => {
     setSelectedIndex(index);
@@ -40,18 +41,23 @@ export function App() {
   const placeCard = (card: CardProps) => {
     if (selectedIndex === null) return;
 
+    // 1) lógica de captura retorna novo board e número de capturas
     const { board: newBoard, captures } = logicPlaceCard(board, selectedIndex, {
       ...card,
       index: selectedIndex,
     });
     setBoard(newBoard);
 
+    // 2) atualiza pontuação: capturador ganha +captures, capturado perde -captures
     if (playerOnTurn.name === playerOne.name) {
       setPlayerOne((p) => ({ ...p, points: p.points + captures }));
+      setPlayerTwo((p) => ({ ...p, points: p.points - captures }));
     } else {
       setPlayerTwo((p) => ({ ...p, points: p.points + captures }));
+      setPlayerOne((p) => ({ ...p, points: p.points - captures }));
     }
 
+    // 3) remove carta da mão
     if (playerOnTurn.name === playerOne.name) {
       setPlayerOne((p) => ({
         ...p,
@@ -64,6 +70,7 @@ export function App() {
       }));
     }
 
+    // 4) alterna jogador
     const nextPlayer =
       playerOnTurn.name === playerOne.name ? playerTwo : playerOne;
     const nextOpponent =
@@ -71,13 +78,14 @@ export function App() {
     setPlayerOnTurn(nextPlayer);
     setPlayerOpponent(nextOpponent);
 
+    // 5) fim de jogo e pontuação do vencedor da rodada
     if (isGameOver(newBoard)) {
       const winner = getWinner(newBoard, playerOne, playerTwo);
       if (winner) {
         if (winner.name === playerOne.name) {
-          setPlayerOne((p) => ({ ...p, points: p.points + 1 }));
+          setGameWinner(playerOne);
         } else {
-          setPlayerTwo((p) => ({ ...p, points: p.points + 1 }));
+          setGameWinner(playerTwo);
         }
       }
     }
@@ -91,24 +99,39 @@ export function App() {
     playerTwo.cards.forEach((c) => (c.owner = playerTwo));
   }, [playerOne, playerTwo]);
 
-  return (
-    <>
-      <Header />
-      <p>
-        Player One Points: {playerOne.points}
-        Player Two Points: {playerTwo.points}
-      </p>
-      <GameBoard
-        cards={board.filter((c): c is CardProps => c !== null)}
-        playerOne={playerOne}
-        handleOpenModal={openModal}
-      />
-      <Modal
-        isOpen={modalOpen}
-        playerOnTurn={playerOnTurn}
-        playerOpponent={playerOpponent}
-        onCardClick={placeCard}
-      />
-    </>
-  );
+  if (gameWinner === null) {
+    return (
+      <>
+        <Header />
+        <p>
+          Player One Points: {playerOne.points} <br />
+          Player Two Points: {playerTwo.points}
+        </p>
+        <GameBoard
+          cards={board.filter((c): c is CardProps => c !== null)}
+          playerOne={playerOne}
+          handleOpenModal={openModal}
+        />
+        <Modal
+          isOpen={modalOpen}
+          playerOnTurn={playerOnTurn}
+          playerOpponent={playerOpponent}
+          onCardClick={placeCard}
+        />
+      </>
+    );
+  } else {
+    return (
+      <>
+        <Header />
+        <main>
+          <h2>Congratulations!!!</h2>
+          <p>
+            Name: {gameWinner.name} <br />
+            Points: {gameWinner.points}
+          </p>
+        </main>
+      </>
+    );
+  }
 }

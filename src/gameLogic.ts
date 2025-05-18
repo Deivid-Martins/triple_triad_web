@@ -1,10 +1,16 @@
 import { CardProps } from './types/Card';
 import { PlayerProps } from './types/Player';
 
+/**
+ * Retorna se o jogo acabou (quando 9 cartas já foram usadas)
+ */
 export function isGameOver(board: (CardProps | null)[]): boolean {
   return board.filter((slot) => slot != null).length >= 9;
 }
 
+/**
+ * Conta cartas de cada jogador e declara vencedor (ou null se empate)
+ */
 export function getWinner(
   board: (CardProps | null)[],
   playerOne: PlayerProps,
@@ -23,7 +29,7 @@ export function getWinner(
 }
 
 /**
- * Insere uma carta no tabuleiro, aplica regras de captura
+ * Insere uma carta no tabuleiro, aplica regras de captura (comum + Same)
  * e retorna o novo board junto com a quantidade de cartas capturadas.
  * @param board atual (array 9 slots)
  * @param index posição 0-8 onde colocar
@@ -35,12 +41,16 @@ export function placeCard(
   index: number,
   card: CardProps,
 ): { board: (CardProps | null)[]; captures: number } {
+  // clone do board
   const newBoard = board.slice();
   newBoard[index] = { ...card, index };
 
+  // check common flips
   const commonCaptures = checkCommon(newBoard, index);
+  // check same rule flips
   const sameCaptures = checkSameRule(newBoard, index);
 
+  // combina e aplica flips
   const allFlips = Array.from(new Set([...commonCaptures, ...sameCaptures]));
   for (const flipIdx of allFlips) {
     if (newBoard[flipIdx]) newBoard[flipIdx]!.owner = { ...card.owner! };
@@ -49,6 +59,7 @@ export function placeCard(
   return { board: newBoard, captures: allFlips.length };
 }
 
+// Deltas para vizinhança: deslocamento no array e direção oposta para comparar
 const deltas: Record<
   keyof CardProps['powers'],
   { idx: number; opp: keyof CardProps['powers'] }
@@ -59,6 +70,9 @@ const deltas: Record<
   right: { idx: 1, opp: 'left' },
 };
 
+/**
+ * Aplica regra comum: sempre que valor maior que vizinho, captura
+ */
 function checkCommon(board: (CardProps | null)[], index: number): number[] {
   const flips: number[] = [];
   const placed = board[index]!;
@@ -83,6 +97,9 @@ function checkCommon(board: (CardProps | null)[], index: number): number[] {
   return flips;
 }
 
+/**
+ * Aplica regra "Same": se duas bordas iguais, captura vizinhos nas duas direções
+ */
 function checkSameRule(board: (CardProps | null)[], index: number): number[] {
   type Dir = keyof typeof deltas;
   const matches: Dir[] = [];
@@ -99,7 +116,9 @@ function checkSameRule(board: (CardProps | null)[], index: number): number[] {
       continue;
     const neighbor = board[ni];
     if (!neighbor) continue;
-    if (placed.powers[dir] === neighbor.powers[opp]) matches.push(dir);
+    if (placed.powers[dir] === neighbor.powers[opp]) {
+      matches.push(dir);
+    }
   }
 
   const flips: number[] = [];
