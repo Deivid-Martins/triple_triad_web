@@ -3,7 +3,7 @@ import { Header } from './components/Header/Header';
 import { GameBoard } from './components/GameBoard/GameBoard';
 import { Modal } from './components/Modal/Modal';
 import { CardProps } from './types/Card';
-import { PlayerProps } from './types/player';
+import { PlayerProps } from './types/Player';
 import { getRandomCards } from './data/randomizeCards';
 
 const PlayerOneDefault: PlayerProps = {
