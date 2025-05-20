@@ -1,5 +1,5 @@
-import { CardProps } from './types/Card';
-import { PlayerProps } from './types/Player';
+import { CardProps } from './types/Card.ts';
+import { PlayerProps } from './types/Player.ts';
 
 /**
  * Retorna se o jogo acabou (quando 9 cartas já foram usadas)

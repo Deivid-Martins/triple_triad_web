@@ -1,5 +1,5 @@
 import { CARDS_LIBRARY } from './cards';
-import { CardProps } from '../types/Card';
+import { CardProps } from '../types/Card.ts';
 
 /**
  * Retorna um array de CardProps com `count` cartas aleatórias sem repetição.

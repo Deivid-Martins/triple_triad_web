@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { CardProps } from '../../types/Card';
-import { PlayerProps } from '../../types/Player';
+import { CardProps } from '../../types/Card.ts';
+import { PlayerProps } from '../../types/Player.ts';
 import './style.css';
 
 interface GameBoardProps {

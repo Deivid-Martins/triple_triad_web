@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { Header } from './components/Header/Header';
 import { GameBoard } from './components/GameBoard/GameBoard';
 import { Modal } from './components/Modal/Modal';
-import { CardProps } from './types/Card';
-import { PlayerProps } from './types/Player';
+import { CardProps } from './types/Card.ts';
+import { PlayerProps } from './types/Player.ts';
 import { getRandomCards } from './data/randomizeCards';
 import {
   placeCard as logicPlaceCard,

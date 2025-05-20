@@ -1,6 +1,6 @@
 import './style.css';
-import { PlayerProps } from '../../types/Player';
-import { CardProps } from '../../types/Card';
+import { PlayerProps } from '../../types/Player.ts';
+import { CardProps } from '../../types/Card.ts';
 
 interface ModalProps {
   isOpen: boolean;

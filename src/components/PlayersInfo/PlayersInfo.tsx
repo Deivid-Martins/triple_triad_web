@@ -1,4 +1,4 @@
-import { PlayerProps } from '../../types/Player';
+import { PlayerProps } from '../../types/Player.ts';
 import './style.css';
 
 interface PlayersInfoProps {
