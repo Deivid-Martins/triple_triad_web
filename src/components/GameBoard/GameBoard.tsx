@@ -28,7 +28,7 @@ export function GameBoard({
     <ul id="gameboard">
       {board.map((slot, idx) => {
         const slotClass = slot
-          ? slot.owner.name === playerOne.name
+          ? slot.owner!.name === playerOne.name
             ? 'green-slot'
             : 'red-slot'
           : 'empty';
