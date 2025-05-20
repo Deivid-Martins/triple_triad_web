@@ -13,6 +13,9 @@ export function Congratulations({ winner }: CongratulationsProps) {
         <h3>Name: {winner.name}</h3>
         <p>Points: {winner.points}</p>
       </div>
+      <a href="/" id="play-again-button">
+        Play Again!
+      </a>
     </main>
   );
 }
