@@ -24,7 +24,7 @@ export function Modal({
       <div className="modal-content">
         <h3>Your Cards</h3>
         <div className="hand">
-          {playerOnTurn.cards.map((card) => (
+          {playerOnTurn.cards.map((card: CardProps) => (
             <div
               key={card.name}
               className="card-slot usable"
@@ -49,7 +49,7 @@ export function Modal({
 
         <h3>{playerOpponent.name}'s Hand</h3>
         <div className="hand opponent">
-          {playerOpponent.cards.map((card) => (
+          {playerOpponent.cards.map((card: CardProps) => (
             <div key={card.name} className="card-slot small">
               <span className="power-up">
                 {card.powers.up === 10 ? 'A' : card.powers.up}

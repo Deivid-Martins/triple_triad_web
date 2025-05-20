@@ -60,7 +60,7 @@ export function App() {
       newP1 = {
         ...playerOne,
         points: playerOne.points + captures,
-        cards: playerOne.cards.filter((c) => c.name !== card.name),
+        cards: playerOne.cards.filter((c: CardProps) => c.name !== card.name),
       };
       newP2 = {
         ...playerTwo,
@@ -70,7 +70,7 @@ export function App() {
       newP2 = {
         ...playerTwo,
         points: playerTwo.points + captures,
-        cards: playerTwo.cards.filter((c) => c.name !== card.name),
+        cards: playerTwo.cards.filter((c: CardProps) => c.name !== card.name),
       };
       newP1 = {
         ...playerOne,
@@ -100,8 +100,8 @@ export function App() {
   };
 
   useEffect(() => {
-    playerOne.cards.forEach((c) => (c.owner = playerOne));
-    playerTwo.cards.forEach((c) => (c.owner = playerTwo));
+    playerOne.cards.forEach((c: CardProps) => (c.owner = playerOne));
+    playerTwo.cards.forEach((c: CardProps) => (c.owner = playerTwo));
   }, [playerOne, playerTwo]);
 
   if (gameWinner === null) {
