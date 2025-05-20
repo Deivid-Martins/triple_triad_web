@@ -53,42 +53,46 @@ export function App() {
     });
     setBoard(newBoard);
 
-    if (playerOnTurn.name === playerOne.name) {
-      setPlayerOne((p) => ({ ...p, points: p.points + captures }));
-      setPlayerTwo((p) => ({ ...p, points: p.points - captures }));
-    } else {
-      setPlayerTwo((p) => ({ ...p, points: p.points + captures }));
-      setPlayerOne((p) => ({ ...p, points: p.points - captures }));
-    }
+    let newP1: PlayerProps;
+    let newP2: PlayerProps;
 
     if (playerOnTurn.name === playerOne.name) {
-      setPlayerOne((p) => ({
-        ...p,
-        cards: p.cards.filter((c) => c.name !== card.name),
-      }));
+      newP1 = {
+        ...playerOne,
+        points: playerOne.points + captures,
+        cards: playerOne.cards.filter((c) => c.name !== card.name),
+      };
+      newP2 = {
+        ...playerTwo,
+        points: playerTwo.points - captures,
+      };
     } else {
-      setPlayerTwo((p) => ({
-        ...p,
-        cards: p.cards.filter((c) => c.name !== card.name),
-      }));
+      newP2 = {
+        ...playerTwo,
+        points: playerTwo.points + captures,
+        cards: playerTwo.cards.filter((c) => c.name !== card.name),
+      };
+      newP1 = {
+        ...playerOne,
+        points: playerOne.points - captures,
+      };
     }
 
-    const nextPlayer =
-      playerOnTurn.name === playerOne.name ? playerTwo : playerOne;
-    const nextOpponent =
-      playerOnTurn.name === playerOne.name ? playerOne : playerTwo;
-    setPlayerOnTurn(nextPlayer);
-    setPlayerOpponent(nextOpponent);
+    setPlayerOne(newP1);
+    setPlayerTwo(newP2);
+
+    if (playerOnTurn.name === playerOne.name) {
+      setPlayerOnTurn(newP2);
+      setPlayerOpponent(newP1);
+    } else {
+      setPlayerOnTurn(newP1);
+      setPlayerOpponent(newP2);
+    }
 
     if (isGameOver(newBoard)) {
-      const winner = getWinner(playerOne, playerTwo);
-      if (winner) {
-        if (winner.name === playerOne.name) {
-          setGameWinner(playerOne);
-        } else {
-          setGameWinner(playerTwo);
-        }
-      }
+      const winner = getWinner(newP1, newP2);
+      if (winner?.name === newP1.name) setGameWinner(newP1);
+      else if (winner?.name === newP2.name) setGameWinner(newP2);
     }
 
     setModalOpen(false);
