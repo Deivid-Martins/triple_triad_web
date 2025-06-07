@@ -1,7 +1,8 @@
-import { CardProps } from './Card';
+import { CardProps } from "./Card";
 
 export interface PlayerProps {
   name: string;
   points: number;
   cards: CardProps[];
+  yourTurn: boolean;
 }

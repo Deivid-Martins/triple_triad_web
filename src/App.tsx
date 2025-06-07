@@ -1,28 +1,30 @@
-import { useEffect, useState } from 'react';
-import { Header } from './components/Header/Header';
-import { GameBoard } from './components/GameBoard/GameBoard';
-import { Modal } from './components/Modal/Modal';
-import { CardProps } from './types/Card.ts';
-import { PlayerProps } from './types/Player.ts';
-import { getRandomCards } from './data/randomizeCards';
+import { useEffect, useState } from "react";
+import { Header } from "./components/Header/Header";
+import { GameBoard } from "./components/GameBoard/GameBoard";
+import { Modal } from "./components/Modal/Modal";
+import { CardProps } from "./types/Card.ts";
+import { PlayerProps } from "./types/Player.ts";
+import { getRandomCards } from "./data/randomizeCards";
 import {
   placeCard as logicPlaceCard,
   getWinner,
   isGameOver,
-} from './gameLogic';
-import { PlayersInfo } from './components/PlayersInfo/PlayersInfo';
-import { Congratulations } from './components/Congratulations/Congratulations';
+} from "./gameLogic";
+import { PlayersInfo } from "./components/PlayersInfo/PlayersInfo";
+import { Congratulations } from "./components/Congratulations/Congratulations";
 
 const PlayerOneDefault: PlayerProps = {
-  name: 'Deivid',
+  name: "Deivid",
   points: 3,
   cards: getRandomCards(),
+  yourTurn: true,
 };
 
 const PlayerTwoDefault: PlayerProps = {
-  name: 'Kayke',
+  name: "Kayke",
   points: 3,
   cards: getRandomCards(),
+  yourTurn: false,
 };
 
 export function App() {
@@ -82,9 +84,37 @@ export function App() {
     setPlayerTwo(newP2);
 
     if (playerOnTurn.name === playerOne.name) {
+      setPlayerOne((prev) => {
+        return {
+          ...prev,
+          yourTurn: false,
+        };
+      });
+
+      setPlayerTwo((prev) => {
+        return {
+          ...prev,
+          yourTurn: true,
+        };
+      });
+
       setPlayerOnTurn(newP2);
       setPlayerOpponent(newP1);
     } else {
+      setPlayerTwo((prev) => {
+        return {
+          ...prev,
+          yourTurn: false,
+        };
+      });
+
+      setPlayerOne((prev) => {
+        return {
+          ...prev,
+          yourTurn: true,
+        };
+      });
+
       setPlayerOnTurn(newP1);
       setPlayerOpponent(newP2);
     }
